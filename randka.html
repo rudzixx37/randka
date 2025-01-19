@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Randka</title>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'PT Serif', serif; 
+            text-align: center; 
+            background: linear-gradient(to bottom, white, #61baff);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hidden { display: none; }
+        button {
+            background-color: #ffc0cb;
+            border: none;
+            color: black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        button:hover {
+            background-color: #007fff; /* Habrowy kolor */
+            color: white;
+        }
+        #legoButton { 
+            background-image: url(https://i.pinimg.com/736x/4e/7e/78/4e7e78f25e3bc3cd502d0c11a8d5a675.jpg);
+            height: 200px;
+            width: 200px;
+        }
+        #maczekButton { 
+            background-image: url(https://i.pinimg.com/736x/ca/90/1a/ca901a30eba6817fbdcfd5f062135600.jpg);
+            height: 200px;
+            width: 200px;
+        }
+        #spacerButton { 
+            background-image: url(https://i.pinimg.com/736x/6a/f6/ee/6af6eea5f325cc4c44754f586c8198be.jpg);
+            height: 200px;
+            width: 200px;
+        }
+        #meczykButton { 
+            background-image: url(https://i.pinimg.com/736x/7f/5e/4e/7f5e4eb99093cfbf2021c57791762224.jpg);
+            height: 200px;
+            width: 200px;
+        }
+        #kebabButton { 
+            background-image: url(https://i.pinimg.com/736x/37/17/ec/3717ec64e48235a4a18053b72510126e.jpg);
+            height: 200px;
+            width: 200px; 
+        }
+        h1, h2, p {
+            color: black;
+        }
+        #page1, #page2, #page3, #page4 {
+            padding: 20px;
+        }
+        input[type="datetime-local"], input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="page1">
+        <h1>Dzień dobry, szanowny panie</h1>
+        <button id="randkaButton">Randka?</button>
+    </div>
+    <div id="page2" class="hidden">
+        <h2>Wybierz datę i godzinę</h2>
+        <input type="datetime-local" id="datetime">
+        <button onclick="goToPage3()">Wtedy mi pasuje</button>
+    </div>
+    <div id="page3" class="hidden">
+        <h2>Co chcesz robić?</h2>
+        <button id="kebabButton" onclick="selectActivity('Kebab')">Kebab</button>
+        <button id="spacerButton" onclick="selectActivity('Spacer')">Spacer</button>
+        <button id="maczekButton" onclick="selectActivity('Maczek')">Maczek</button>
+        <button id="meczykButton" onclick="selectActivity('Meczyk')">Meczyk</button>
+        <button id="legoButton" onclick="selectActivity('Składanie lego')">Składanie lego</button>
+        <button onclick="showOtherActivityInput()">Inne</button>
+        <input type="text" id="otherActivity" placeholder="Inne (wpisz tutaj)" class="hidden">
+        <button id="confirmOtherActivity" class="hidden" onclick="selectOtherActivity()">Zatwierdź</button>
+    </div>
+    <div id="page4" class="hidden">
+        <h2>Kozak, do zobaczenia kocie</h2>
+        <form action="https://formspree.io/f/xanngryw" method="POST">
+            <input type="hidden" name="datetime" id="finalDatetime">
+            <input type="hidden" name="activity" id="finalActivity">
+            <p id="summary"></p>
+            <button type="submit">Wyślij</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('randkaButton').addEventListener('click', function() {
+            document.getElementById('page1').classList.add('hidden');
+            document.getElementById('page2').classList.remove('hidden');
+        });
+
+        function goToPage3() {
+            document.getElementById('page2').classList.add('hidden');
+            document.getElementById('page3').classList.remove('hidden');
+        }
+
+        function selectActivity(activity) {
+            const datetime = document.getElementById('datetime').value;
+            document.getElementById('page3').classList.add('hidden');
+            document.getElementById('page4').classList.remove('hidden');
+            document.getElementById('summary').innerText = `Data i czas: ${datetime}, Aktywność: ${activity}`;
+            document.getElementById('finalDatetime').value = datetime;
+            document.getElementById('finalActivity').value = activity;
+        }
+
+        function showOtherActivityInput() {
+            document.getElementById('otherActivity').classList.remove('hidden');
+            document.getElementById('confirmOtherActivity').classList.remove('hidden');
+        }
+
+        function selectOtherActivity() {
+            const datetime = document.getElementById('datetime').value;
+            const otherActivity = document.getElementById('otherActivity').value;
+            document.getElementById('page3').classList.add('hidden');
+            document.getElementById('page4').classList.remove('hidden');
+            document.getElementById('summary').innerText = `Data i czas: ${datetime}, Aktywność: ${otherActivity}`;
+            document.getElementById('finalDatetime').value = datetime;
+            document.getElementById('finalActivity').value = otherActivity;
+        }
+    </script>
+</body>
+</html>
